@@ -1,10 +1,7 @@
 import json
 import click
-import utils
-import pandas as pd
+from ..utils import code as utils
 
-
-# from scripts.utils import save_json
 
 @click.group(chain=True)
 def cli():
