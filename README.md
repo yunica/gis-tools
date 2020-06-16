@@ -11,7 +11,14 @@
 
 `pip install .`
 
+## packages
 ### gfw 
-Scripts gfw, process data
+Scripts for process data in gfw. 
 
+#### commands
+**--help**
+ 
+ list all comands, can use into  command
+  
 `gfw --help`
+

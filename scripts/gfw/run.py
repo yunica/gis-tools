@@ -70,6 +70,9 @@ def process_count(i, data_out, data_err, data_out_names, data_err_name):
 @click.option("--file", "-f", "in_file", required=True,
               help="Path to json file to be processed.", )
 def run_json2geojson(in_file):
+    """
+    convert json 2 geojson, gfw format
+    """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
         data_out = {"type": "FeatureCollection", "features": []}
@@ -95,6 +98,9 @@ def run_json2geojson(in_file):
 @click.option("--file", "-f", "in_file", required=True,
               help="Path to json file to be processed.", )
 def run_json2geojson_next_prev(in_file):
+    """
+      convert json 2 geojson, use next and prev fields for  two new geojson
+    """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
         data_out = {"type": "FeatureCollection", "features": []}
@@ -137,6 +143,9 @@ def run_json2geojson_next_prev(in_file):
 @click.option("--file", "-f", "in_file", required=True,
               help="Path to json file to be processed.", )
 def run_count(in_file):
+    """
+        Counto escena_id from gfw json
+    """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
         data_out = []
@@ -220,6 +229,9 @@ def process_filter_8(i, data_out):
 @click.option("--file", "-f", "in_file", required=True,
               help="Path to json file to be processed.", )
 def run_group_8(in_file):
+    """
+        agrupate data in 8 blocks
+    """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
         # data count
@@ -259,6 +271,9 @@ def run_group_8(in_file):
 @click.option("--file", "-f", "in_file", required=True,
               help="Path to json file to be processed.", )
 def run_goup_8_split(in_file):
+    """
+        Agrupate and split data from gfw json
+    """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
 
