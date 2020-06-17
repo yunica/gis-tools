@@ -71,7 +71,7 @@ def process_count(i, data_out, data_err, data_out_names, data_err_name):
               help="Path to json file to be processed.", )
 def run_json2geojson(in_file):
     """
-    convert json 2 geojson, gfw format
+    Convert gfw json 2 geojson
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
@@ -99,7 +99,7 @@ def run_json2geojson(in_file):
               help="Path to json file to be processed.", )
 def run_json2geojson_next_prev(in_file):
     """
-      convert json 2 geojson, use next and prev fields for  two new geojson
+      Convert json 2 geojson, use next and prev fields for two new geojson
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
@@ -144,7 +144,7 @@ def run_json2geojson_next_prev(in_file):
               help="Path to json file to be processed.", )
 def run_count(in_file):
     """
-        Counto escena_id from gfw json
+        Count escena_id from json
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
@@ -230,7 +230,7 @@ def process_filter_8(i, data_out):
               help="Path to json file to be processed.", )
 def run_group_8(in_file):
     """
-        agrupate data in 8 blocks
+        Agrupate data in 8 blocks
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
@@ -270,9 +270,24 @@ def run_group_8(in_file):
 @cli.command('group_8_split')
 @click.option("--file", "-f", "in_file", required=True,
               help="Path to json file to be processed.", )
-def run_goup_8_split(in_file):
+@click.option("--next", "-n", "next_f", default=False,is_flag=True,show_default=True,help="out next files.", )
+@click.option("--prev", "-p", "prev_f", default=False,is_flag=True,show_default=True,help="out prev files.", )
+def run_goup_8_split(in_file,next_f, prev_f):
     """
-        Agrupate and split data from gfw json
+        Agrupate and split data from gfw json (8 blocks)
+
+        return:
+
+        - 8 files data
+
+        - 8 files error (don't have coordinates field)
+
+        - 8 files next
+
+        - 8 files prev
+
+        - 1 file general error
+
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
@@ -318,32 +333,36 @@ def run_goup_8_split(in_file):
                     {'name': '600>500>=', 'count': 0, 'scenes': []},
                     {'name': '500>', 'count': 0, 'scenes': []}]
         data_err_gen = []
-        data_out_next = [
-            {'name': '2000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '2000>1000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '1000>900>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '900>800>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '800>700>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '700>600>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '600>500>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '500>', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}}]
-        data_out_prev = [
-            {'name': '2000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '2000>1000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '1000>900>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '900>800>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '800>700>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '700>600>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '600>500>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
-            {'name': '500>', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}}]
+        if next_f:
+            data_out_next = [
+                {'name': '2000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '2000>1000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '1000>900>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '900>800>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '800>700>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '700>600>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '600>500>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '500>', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}}]
+        if prev_f:
+            data_out_prev = [
+                {'name': '2000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '2000>1000>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '1000>900>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '900>800>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '800>700>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '700>600>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '600>500>=', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}},
+                {'name': '500>', 'count': 0, 'scenes': {"type": "FeatureCollection", "features": []}}]
 
         with click.progressbar(json_data, label='Process data filtered', length=len(json_data)) as bar:
             for k, i in enumerate(bar):
                 geojson = {"type": "Feature", 'id': k, "properties": {},
                            "geometry": {"type": "Point", "coordinates": []}}
                 geojson['properties'] = i
-                cord_prev = i['prev_message']
-                cord_next = i['next_message']
+                if prev_f:
+                    cord_prev = i['prev_message']
+                if next_f:
+                    cord_next = i['next_message']
                 cord = i['interpolated_location']
                 index = None
                 for j, l in enumerate(data_out_mask):
@@ -359,12 +378,12 @@ def run_goup_8_split(in_file):
                     else:
                         data_err[index]['count'] += 1
                         data_err[index]['scenes'].append(geojson)
-                    if cord_prev and cord_prev['lon']:
+                    if prev_f and cord_prev and cord_prev['lon']:
                         geojson['geometry']['coordinates'] = [cord_prev['lon'], cord_prev['lat']]
                         data_out_prev[index]['count'] += 1
                         data_out_prev[index]['scenes']['features'].append(geojson)
 
-                    if cord_next and cord_next['lon']:
+                    if next_f and cord_next and cord_next['lon']:
                         geojson['geometry']['coordinates'] = [cord_next['lon'], cord_next['lat']]
                         data_out_next[index]['count'] += 1
                         data_out_next[index]['scenes']['features'].append(geojson)
@@ -384,20 +403,20 @@ def run_goup_8_split(in_file):
                 name = i['name']
                 new_name = in_file.replace('.json', f'_data_split_{name}-c{count}.geojson')
                 utils.save_json(new_name, i['scenes'])
-
-        with click.progressbar(data_out_next, label='save data_out_next', length=len(data_out_next)) as bar:
-            for i in bar:
-                count = i['count']
-                name = i['name']
-                new_name = in_file.replace('.json', f'_data_split_next_{name}-c{count}.geojson')
-                utils.save_json(new_name, i['scenes'])
-
-        with click.progressbar(data_out_prev, label='save data_out_prev', length=len(data_out_prev)) as bar:
-            for i in bar:
-                count = i['count']
-                name = i['name']
-                new_name = in_file.replace('.json', f'_data_split_prev_{name}-c{count}.geojson')
-                utils.save_json(new_name, i['scenes'])
+        if next_f:
+            with click.progressbar(data_out_next, label='save data_out_next', length=len(data_out_next)) as bar:
+                for i in bar:
+                    count = i['count']
+                    name = i['name']
+                    new_name = in_file.replace('.json', f'_data_split_next_{name}-c{count}.geojson')
+                    utils.save_json(new_name, i['scenes'])
+        if prev_f:
+            with click.progressbar(data_out_prev, label='save data_out_prev', length=len(data_out_prev)) as bar:
+                for i in bar:
+                    count = i['count']
+                    name = i['name']
+                    new_name = in_file.replace('.json', f'_data_split_prev_{name}-c{count}.geojson')
+                    utils.save_json(new_name, i['scenes'])
 
         with click.progressbar(data_err, label='save data_err', length=len(data_err)) as bar:
             for i in bar:

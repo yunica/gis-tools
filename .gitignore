@@ -4,3 +4,6 @@ data/
 *.geojson
 __pycache__/
 *.pyc
+env/
+.env/
+entorno/
