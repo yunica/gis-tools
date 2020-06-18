@@ -39,6 +39,7 @@ setup(
     entry_points={
         'console_scripts': [
             'gfw=scripts.gfw.__init__:main',
+            'ffda=scripts.ffda.__init__:main',
 
         ],
     },
