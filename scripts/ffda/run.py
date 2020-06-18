@@ -118,11 +118,11 @@ def field_validate(in_file, arr_fields, background, ):
                     if not suma:
                         features_error.append(geo)
 
-        errors = [i['id'] for i in features_error]
+        errors = [f'{i["id"]} ({i["properties"]["tile"]})' for i in features_error]
         if errors:
             click.echo(click.style('======= ERROR =======', fg='red'))
             for i in errors:
-                print(i, end=' - ')
+                print(i, end=' -- ')
 
 
 if __name__ == '__main__':
