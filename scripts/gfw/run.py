@@ -27,8 +27,6 @@ def process_json2geojson_next_prev(i, k, data_out, data_err, data_out_next, data
     ii = {"type": "Feature", 'id': k, "properties": {}, "geometry": {"type": "Point", "coordinates": []}}
     # del i['interpolated_location']
     ii['properties'] = i
-    cord_prev = i['prev_message']
-    cord_next = i['next_message']
     cord = i['interpolated_location']
     if cord and cord['lon']:
         ii['geometry']['coordinates'] = [cord['lon'], cord['lat']]
@@ -36,13 +34,17 @@ def process_json2geojson_next_prev(i, k, data_out, data_err, data_out_next, data
     else:
         data_err.append(ii)
 
-    if cord_prev and cord_prev['lon']:
-        ii['geometry']['coordinates'] = [cord_prev['lon'], cord_prev['lat']]
-        data_out_prev.append(ii)
-
+    cord_next = i['next_message']
     if cord_next and cord_next['lon']:
-        ii['geometry']['coordinates'] = [cord_next['lon'], cord_next['lat']]
-        data_out_next.append(ii)
+        ii_next = {"type": "Feature", 'id': k, "properties": i, "geometry": {"type": "Point", "coordinates": []}}
+        ii_next['geometry']['coordinates'] = [cord_next['lon'], cord_next['lat']]
+        data_out_next.append(ii_next)
+
+    cord_prev = i['prev_message']
+    if cord_prev and cord_prev['lon']:
+        ii_prev = {"type": "Feature", 'id': k, "properties": i, "geometry": {"type": "Point", "coordinates": []}}
+        ii_prev['geometry']['coordinates'] = [cord_prev['lon'], cord_prev['lat']]
+        data_out_prev.append(ii_prev)
 
 
 def process_count(i, data_out, data_err, data_out_names, data_err_name):
@@ -270,9 +272,9 @@ def run_group_8(in_file):
 @cli.command('group_8_split')
 @click.option("--file", "-f", "in_file", required=True,
               help="Path to json file to be processed.", )
-@click.option("--next", "-n", "next_f", default=False,is_flag=True,show_default=True,help="out next files.", )
-@click.option("--prev", "-p", "prev_f", default=False,is_flag=True,show_default=True,help="out prev files.", )
-def run_goup_8_split(in_file,next_f, prev_f):
+@click.option("--next", "-n", "next_f", default=False, is_flag=True, show_default=True, help="out next files.", )
+@click.option("--prev", "-p", "prev_f", default=False, is_flag=True, show_default=True, help="out prev files.", )
+def run_goup_8_split(in_file, next_f, prev_f):
     """
         Agrupate and split data from gfw json (8 blocks)
 
