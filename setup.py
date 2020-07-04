@@ -24,8 +24,8 @@ setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'gfw=scripts.gfw.__init__:main',
-            'ffda=scripts.ffda.__init__:main',
+            'gfw=src.gfw.__init__:main',
+            'ffda=src.ffda.__init__:main',
 
         ],
     },
