@@ -3,7 +3,7 @@ import json
 
 def save_json(name, data):
     with open('./{}'.format(name), 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, ensure_ascii=False )
         f.close()
 
 

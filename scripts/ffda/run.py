@@ -25,7 +25,7 @@ def cli():
               help="tile field ", )
 def field_separate(in_file, field, arr_fields, tiles_error, tile_field):
     """
-    Convert gfw json 2 geojson
+    separate fields in  geojson
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
@@ -72,18 +72,18 @@ def field_separate(in_file, field, arr_fields, tiles_error, tile_field):
               help="new field name of separate for fields, separate for ',' ", )
 def field_agrupate(in_file, field, arr_fields):
     """
-    Convert gfw json 2 geojson
+    agrupate fields in ffda geojson
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
         features = []
 
         with click.progressbar(json_data['features'], label='Process data') as bar:
-            arr_fields = [i for i in arr_fields.split(',') if i]
+            arr_fields = [i for i in arr_fields.split(',') if i.strip()]
             for geo in bar:
                 new_field = []
                 for field_t in arr_fields:
-                    new_field.append(geo['properties'][f'{field_t.strip()}'])
+                    new_field.append(int(geo['properties'][f'{field_t}']))
                     del (geo['properties'][field_t])
                 geo['properties'][field] = new_field
                 features.append(geo)
@@ -142,7 +142,7 @@ def field_validate(in_file, arr_fields, background, ):
               help="tile field ", )
 def image_issues(in_file, tiles_error, tile_field):
     """
-    Convert gfw json 2 geojson
+    validate if tag include in tiles_error
     """
     with open(in_file, 'r') as json_file:
         json_data = json.load(json_file)
