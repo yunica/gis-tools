@@ -7,3 +7,5 @@ __pycache__/
 env/
 .env/
 entorno/
+# log enviroment
+.flake8.log
