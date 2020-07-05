@@ -45,5 +45,20 @@ Scripts for process data in ffda project.
 
 
 ## Docker
+- build
+    
+    `docker-compose build`
+ 
+ - run
+ 
+    `docker run --rm -t -v ${PWD}:/code gis-tools  <package> <command> [OPTIONS]`
+
+- example
+
+    `docker run --rm -t -v ${PWD}:/code gis-tools  gfw count_escene -f gfw.json`
+
+
+    
+
 
 
