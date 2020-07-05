@@ -1,0 +1,5 @@
+version: '3'
+services:
+  gis-tools:
+    image: gis-tools
+    build: .
